@@ -1,0 +1,26 @@
+{% extends 'workouts/base.html' %}
+
+{% block title %}Прогресс{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2>Ваш прогресс</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Добавить запись</button>
+        </form>
+        <hr>
+        <h3>История прогресса</h3>
+        <ul class="list-group">
+            {% for entry in progress_data %}
+            <li class="list-group-item">
+                <strong>{{ entry.date }}</strong> - Вес: {{ entry.weight }} кг. Тренировка завершена: {{ entry.workout_completed|yesno:"Да,Нет" }}
+                <p>{{ entry.notes }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

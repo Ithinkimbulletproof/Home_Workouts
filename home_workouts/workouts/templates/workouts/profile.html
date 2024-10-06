@@ -1,0 +1,16 @@
+{% extends 'workouts/base.html' %}
+
+{% block title %}Анкета{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h2>Анкета пользователя</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Сохранить</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

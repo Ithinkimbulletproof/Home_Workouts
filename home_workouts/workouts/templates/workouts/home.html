@@ -1,0 +1,11 @@
+{% extends 'workouts/base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1 class="display-4">Добро пожаловать в Домашние Тренировки</h1>
+    <p class="lead">Выберите тренировки с учётом вашего инвентаря и отслеживайте свой прогресс!</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'workout_plan' %}" role="button">Подобрать тренировку</a>
+</div>
+{% endblock %}
