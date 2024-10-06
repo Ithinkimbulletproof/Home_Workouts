@@ -23,14 +23,12 @@
    cd home_workouts
 Создание и активация виртуального окружения
 
-bash
 Копировать код
 python -m venv .venv
 .venv\Scripts\activate  # Windows
 # source .venv/bin/activate  # Linux/Mac
 Установка зависимостей
 
-bash
 Копировать код
 pip install -r requirements.txt
 Настройка базы данных
