@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views.generic import TemplateView
 from .forms import UserRegistrationForm, UserProfileForm, UserProgressForm
 from .models import WorkoutPlan, UserProgress
 
@@ -23,19 +24,6 @@ def register(request):
     return render(request, "workouts/register.html", {"form": form})
 
 
-def login_view(request):
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect("home")
-        else:
-            messages.error(request, "Неверное имя пользователя или пароль.")
-    return render(request, "workouts/login.html")
-
-
 def logout_view(request):
     logout(request)
     return redirect("home")
@@ -52,27 +40,6 @@ def profile(request):
     else:
         form = UserProfileForm(instance=request.user.userprofile)
     return render(request, "workouts/profile.html", {"form": form})
-
-
-@login_required
-def progress(request):
-    if request.method == "POST":
-        form = UserProgressForm(request.POST)
-        if form.is_valid():
-            progress = form.save(commit=False)
-            progress.user = request.user
-            progress.save()
-            messages.success(request, "Ваш прогресс сохранен!")
-            return redirect("progress")
-    else:
-        form = UserProgressForm()
-
-    progress_data = UserProgress.objects.filter(user=request.user).order_by("-date")
-    return render(
-        request,
-        "workouts/progress.html",
-        {"form": form, "progress_data": progress_data},
-    )
 
 
 @login_required
@@ -96,3 +63,14 @@ def workout_list(request):
 def workout_detail(request, id):
     workout = WorkoutPlan.objects.get(id=id)
     return render(request, "workouts/workout_detail.html", {"workout": workout})
+
+
+class UserProgressView(TemplateView):
+    template_name = "workouts/progress.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["progress_data"] = UserProgress.objects.filter(
+            user=self.request.user
+        ).order_by("-date")
+        return context
