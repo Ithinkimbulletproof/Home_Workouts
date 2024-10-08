@@ -1,33 +1,51 @@
 {% extends 'workouts/base.html' %}
 
 {% block content %}
-<div class="container">
-    <h2>Регистрация</h2>
-    <form method="post" novalidate>
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        <div class="form-group">
-            <label for="{{ form.username.id_for_label }}">Имя пользователя:</label>
-            {{ form.username }}
-            {{ form.username.errors }}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Регистрация</h2>
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+
+                        {{ form.non_field_errors }}
+
+                        <div class="form-group mb-3">
+                            <label for="{{ form.username.id_for_label }}">Имя пользователя:</label>
+                            {{ form.username }}
+                            {{ form.username.errors }}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="{{ form.email.id_for_label }}">Email:</label>
+                            {{ form.email }}
+                            {{ form.email.errors }}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="{{ form.password.id_for_label }}">Пароль:</label>
+                            {{ form.password }}
+                            {{ form.password.errors }}
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label for="{{ form.password_confirm.id_for_label }}">Подтвердите пароль:</label>
+                            {{ form.password_confirm }}
+                            {{ form.password_confirm.errors }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
+                    </form>
+                </div>
+            </div>
+
+            <p class="text-center mt-3">
+                Уже есть аккаунт? <a href="{% url 'login' %}">Войдите</a>
+            </p>
         </div>
-        <div class="form-group">
-            <label for="{{ form.email.id_for_label }}">Email:</label>
-            {{ form.email }}
-            {{ form.email.errors }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.password.id_for_label }}">Пароль:</label>
-            {{ form.password }}
-            {{ form.password.errors }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.password_confirm.id_for_label }}">Подтвердите пароль:</label>
-            {{ form.password_confirm }}
-            {{ form.password_confirm.errors }}
-        </div>
-        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-    </form>
-    <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войдите</a></p>
+    </div>
 </div>
 {% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'workouts/base.html' %}
+
+{% block title %}Детали тренировки{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h2 class="card-title text-center">{{ workout.name }}</h2>
+                    <p class="card-text"><strong>Описание:</strong> {{ workout.description }}</p>
+                    <p class="card-text"><strong>Длительность:</strong> {{ workout.duration }} минут</p>
+                    <p class="card-text"><strong>Оборудование:</strong>
+                        {{ workout.equipment_required|yesno:"Требуется,Не требуется" }}
+                    </p>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'workout_plan' %}" class="btn btn-primary">Вернуться к плану</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

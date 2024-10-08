@@ -3,24 +3,61 @@
 {% block title %}Прогресс{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8 offset-md-2">
-        <h2>Ваш прогресс</h2>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-success">Добавить запись</button>
-        </form>
-        <hr>
-        <h3>История прогресса</h3>
-        <ul class="list-group">
-            {% for entry in progress_data %}
-            <li class="list-group-item">
-                <strong>{{ entry.date }}</strong> - Вес: {{ entry.weight }} кг. Тренировка завершена: {{ entry.workout_completed|yesno:"Да,Нет" }}
-                <p>{{ entry.notes }}</p>
-            </li>
-            {% endfor %}
-        </ul>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 mb-4">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Ваш прогресс</h2>
+
+                    <!-- Форма для добавления новой записи о прогрессе -->
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="form-group mb-3">
+                            {{ form.weight.label_tag }}
+                            {{ form.weight }}
+                            {{ form.weight.errors }}
+                        </div>
+                        <div class="form-group mb-3">
+                            {{ form.workout_completed.label_tag }}
+                            {{ form.workout_completed }}
+                            {{ form.workout_completed.errors }}
+                        </div>
+                        <div class="form-group mb-4">
+                            {{ form.notes.label_tag }}
+                            {{ form.notes }}
+                            {{ form.notes.errors }}
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">Добавить запись</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Раздел истории прогресса -->
+            <div class="card shadow-lg border-0">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">История прогресса</h3>
+
+                    <ul class="list-group">
+                        {% for entry in progress_data %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ entry.date }}</strong> - Вес: {{ entry.weight }} кг
+                                <br>Тренировка завершена: {{ entry.workout_completed|yesno:"Да,Нет" }}
+                                {% if entry.notes %}
+                                <p class="mt-2"><em>Заметки:</em> {{ entry.notes }}</p>
+                                {% endif %}
+                            </div>
+                        </li>
+                        {% empty %}
+                        <li class="list-group-item">Нет записей о прогрессе.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
