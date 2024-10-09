@@ -3,46 +3,13 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="mt-4 text-center">Добро пожаловать на наш сайт тренировок!</h1>
-    <p class="lead text-center">Здесь вы можете подобрать тренировочный план, отслеживать ваш прогресс и обновлять профиль.</p>
+<div class="d-flex justify-content-center align-items-center flex-column" style="min-height: calc(100vh - 60px);">
+    <h1 class="text-center">Добро пожаловать на наш сайт тренировок!</h1>
+    <p class="lead text-center">Здесь вы можете подобрать тренировочный план и отслеживать ваш прогресс.</p>
 
-    <div class="row mt-5">
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 d-flex flex-column shadow-lg border-0">
-                <div class="card-body flex-grow-1">
-                    <h5 class="card-title text-primary">Регистрация</h5>
-                    <p class="card-text">Новый пользователь? Создайте учетную запись и начните тренировки.</p>
-                </div>
-                <div class="card-footer bg-transparent border-0 mt-auto">
-                    <a href="{% url 'register' %}" class="btn btn-primary w-100">Зарегистрироваться</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 d-flex flex-column shadow-lg border-0">
-                <div class="card-body flex-grow-1">
-                    <h5 class="card-title text-secondary">Вход</h5>
-                    <p class="card-text">Уже зарегистрированы? Войдите в свою учетную запись.</p>
-                </div>
-                <div class="card-footer bg-transparent border-0 mt-auto">
-                    <a href="{% url 'login' %}" class="btn btn-secondary w-100">Войти</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 d-flex flex-column shadow-lg border-0">
-                <div class="card-body flex-grow-1">
-                    <h5 class="card-title text-success">Подбор тренировки</h5>
-                    <p class="card-text">Готовы начать тренировки? Подберите тренировочный план, подходящий именно вам.</p>
-                </div>
-                <div class="card-footer bg-transparent border-0 mt-auto">
-                    <a href="{% url 'workout_list' %}" class="btn btn-success w-100">Выбрать тренировку</a>
-                </div>
-            </div>
-        </div>
+    <div class="mt-5">
+        <a href="{% url 'register' %}" class="btn btn-primary mx-2">Зарегистрироваться</a>
+        <a href="{% url 'login' %}" class="btn btn-secondary mx-2">Войти</a>
     </div>
 </div>
 {% endblock %}

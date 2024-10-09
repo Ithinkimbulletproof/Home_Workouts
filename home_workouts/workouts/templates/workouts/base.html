@@ -8,9 +8,13 @@
     <style>
         html, body {
             height: 100%;
+            margin: 0;
         }
-        .container-fluid {
-            height: 100%;
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f8f9fa; /* серый фон для всей страницы */
         }
         #sidebar {
             height: 100vh;
@@ -18,71 +22,74 @@
             top: 0;
             left: 0;
             width: 16.666667%;
+            background-color: #f8f9fa; /* серый фон для бокового меню */
             overflow-y: auto;
         }
         main {
             margin-left: 16.666667%;
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: hidden; /* убираем вертикальный скроллинг */
         }
         .nav-link.active {
-            background-color: #007bff;
+            background-color: #007bff; /* цвет активной ссылки */
             color: white;
+        }
+        footer {
+            background-color: #f8f9fa;
+            padding: 10px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
-                <div class="position-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
-                                Главная
-                            </a>
-                        </li>
-                        {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">
-                                Профиль
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'progress' %}active{% endif %}" href="{% url 'progress' %}">
-                                Прогресс
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'workout_list' %}active{% endif %}" href="{% url 'workout_list' %}">
-                                Тренировки
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">
-                                Войти
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}" href="{% url 'register' %}">
-                                Регистрация
-                            </a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </nav>
-
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                {% block content %}
-                {% endblock %}
-            </main>
-        </div>
+    <div id="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+                    Главная
+                </a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">
+                    Профиль
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'progress' %}active{% endif %}" href="{% url 'progress' %}">
+                    Прогресс
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'workout_list' %}active{% endif %}" href="{% url 'workout_list' %}">
+                    Тренировки
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">
+                    Войти
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}" href="{% url 'register' %}">
+                    Регистрация
+                </a>
+            </li>
+            {% endif %}
+        </ul>
     </div>
 
-    <footer class="text-center mt-4">
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
         <p>&copy; {{ current_year }} Fazanka Records Workout</p>
     </footer>
 
