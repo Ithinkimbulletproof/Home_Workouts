@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.views.generic import TemplateView
 from .forms import UserRegistrationForm, UserProfileForm, UserProgressForm
 from .models import WorkoutPlan, UserProgress
-from django.contrib.auth.models import User
 
 
 def home(request):
@@ -16,11 +15,10 @@ def register(request):
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            # Создание пользователя
             user = form.save(commit=False)
-            user.set_password(form.cleaned_data["password"])  # Установка пароля
-            user.save()  # Сохранение пользователя
-            login(request, user)  # Вход пользователя
+            user.set_password(form.cleaned_data["password"])
+            user.save()
+            login(request, user)
             messages.success(request, "Вы успешно зарегистрированы!")
             return redirect("home")
     else:

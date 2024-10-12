@@ -14,7 +14,7 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            background-color: #f8f9fa; /* серый фон для всей страницы */
+            background-color: #f8f9fa;
         }
         #sidebar {
             height: 100vh;
@@ -22,17 +22,16 @@
             top: 0;
             left: 0;
             width: 16.666667%;
-            background-color: #f8f9fa; /* серый фон для бокового меню */
+            background-color: #f8f9fa;
             overflow-y: auto;
+            display: none; /* Скрываем по умолчанию */
         }
         main {
-            margin-left: 16.666667%;
             padding: 20px;
             flex-grow: 1;
-            overflow-y: hidden; /* убираем вертикальный скроллинг */
         }
         .nav-link.active {
-            background-color: #007bff; /* цвет активной ссылки */
+            background-color: #007bff;
             color: white;
         }
         footer {
@@ -40,10 +39,29 @@
             padding: 10px;
             text-align: center;
         }
+        #toggle-btn {
+            display: none;
+        }
+        /* Показываем кнопку для внутренних страниц */
+        .show-toggle #toggle-btn {
+            display: block;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .show-sidebar #sidebar {
+            display: block;
+        }
     </style>
 </head>
-<body>
-    <div id="sidebar">
+<body class="{% if request.resolver_match.url_name in ['home', 'login', 'register'] %}hide-sidebar{% else %}show-toggle{% endif %}">
+    <button id="toggle-btn">Меню</button>
+    <div id="sidebar" class="{% if request.resolver_match.url_name not in ['home', 'login', 'register'] %}show-sidebar{% endif %}">
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
@@ -94,5 +112,13 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const toggleBtn = document.getElementById('toggle-btn');
+        const sidebar = document.getElementById('sidebar');
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('show-sidebar');
+        });
+    </script>
 </body>
 </html>
