@@ -87,3 +87,5 @@ LOGIN_REDIRECT_URL = "workout_list"
 LOGOUT_REDIRECT_URL = "home"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = 'workouts.CustomUser'

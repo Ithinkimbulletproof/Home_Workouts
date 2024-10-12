@@ -1,6 +1,9 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from .models import UserProfile, UserProgress
+
+
+User = get_user_model()  # Получаем текущую модель пользователя
 
 
 class UserRegistrationForm(forms.ModelForm):
@@ -23,6 +26,9 @@ class UserRegistrationForm(forms.ModelForm):
 
         if User.objects.filter(username=cleaned_data.get("username")).exists():
             raise forms.ValidationError("Пользователь с таким именем уже существует.")
+
+        if User.objects.filter(email=cleaned_data.get("email")).exists():
+            raise forms.ValidationError("Пользователь с такой почтой уже существует.")
 
         return cleaned_data
 
