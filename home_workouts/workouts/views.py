@@ -20,7 +20,9 @@ def register(request):
             user.save()
             login(request, user)
             messages.success(request, "Вы успешно зарегистрированы!")
-            return redirect("profile")  # Перенаправляем на страницу профиля после регистрации
+            return redirect(
+                "profile"
+            )  # Перенаправляем на страницу профиля после регистрации
     else:
         form = UserRegistrationForm()
     return render(request, "workouts/register.html", {"form": form})
@@ -38,7 +40,9 @@ def profile(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Ваш профиль обновлен!")
-            return redirect("profile")  # Оставляем пользователя на странице профиля после обновления
+            return redirect(
+                "profile"
+            )  # Оставляем пользователя на странице профиля после обновления
     else:
         form = UserProfileForm(instance=request.user.userprofile)
     return render(request, "workouts/profile.html", {"form": form})
