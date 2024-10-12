@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from .models import UserProfile, UserProgress
 
 
-User = get_user_model()  # Получаем текущую модель пользователя
+User = get_user_model()
 
 
 class UserRegistrationForm(forms.ModelForm):
