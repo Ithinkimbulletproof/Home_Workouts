@@ -59,9 +59,9 @@
         }
     </style>
 </head>
-<body class="{% if request.resolver_match.url_name in ['home', 'login', 'register'] %}hide-sidebar{% else %}show-toggle{% endif %}">
+<body class="{% if request.resolver_match.url_name == 'home' or request.resolver_match.url_name == 'login' or request.resolver_match.url_name == 'register' %}hide-sidebar{% else %}show-toggle{% endif %}">
     <button id="toggle-btn">Меню</button>
-    <div id="sidebar" class="{% if request.resolver_match.url_name not in ['home', 'login', 'register'] %}show-sidebar{% endif %}">
+    <div id="sidebar" class="{% if request.resolver_match.url_name != 'home' and request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'register' %}show-sidebar{% endif %}">
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
