@@ -16,4 +16,5 @@ urlpatterns = [
     path("workouts/<int:id>/", views.workout_detail, name="workout_detail"),
     path("progress/", views.UserProgressView.as_view(), name="progress"),
     path("workout-plan/", views.workout_plan, name="workout_plan"),
+    path("workouts/create/", views.create_workout, name="create_workout"),
 ]

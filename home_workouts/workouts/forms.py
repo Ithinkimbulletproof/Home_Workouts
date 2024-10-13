@@ -1,10 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from .models import UserProfile, UserProgress
-
+from .models import UserProfile, UserProgress, WorkoutPlan
 
 User = get_user_model()
-
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
@@ -32,14 +30,17 @@ class UserRegistrationForm(forms.ModelForm):
 
         return cleaned_data
 
-
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ["age", "weight", "height", "has_equipment"]
 
-
 class UserProgressForm(forms.ModelForm):
     class Meta:
         model = UserProgress
         fields = ["weight", "workout_completed", "notes"]
+
+class WorkoutPlanForm(forms.ModelForm):
+    class Meta:
+        model = WorkoutPlan
+        fields = ["name", "description", "equipment_required", "intensity_level"]

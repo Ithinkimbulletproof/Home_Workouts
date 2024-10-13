@@ -5,6 +5,7 @@
 {% block content %}
 <div class="container mt-5">
     <h2 class="text-center mb-4">Все тренировки</h2>
+    <a href="{% url 'create_workout' %}" class="btn btn-success mb-3">Создать тренировку</a>
     <div class="row">
         {% if workouts %}
             {% for workout in workouts %}

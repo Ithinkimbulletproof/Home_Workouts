@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import TemplateView
-from .forms import UserRegistrationForm, UserProfileForm, UserProgressForm
+from .forms import UserRegistrationForm, UserProfileForm, UserProgressForm, WorkoutPlanForm
 from .models import WorkoutPlan, UserProgress, UserProfile
 
 def home(request):
@@ -69,6 +69,18 @@ def workout_list(request):
 def workout_detail(request, id):
     workout = WorkoutPlan.objects.get(id=id)
     return render(request, "workouts/workout_detail.html", {"workout": workout})
+
+@login_required
+def create_workout(request):
+    if request.method == "POST":
+        form = WorkoutPlanForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Тренировка успешно создана!")
+            return redirect("workout_list")
+    else:
+        form = WorkoutPlanForm()
+    return render(request, "workouts/create_workout.html", {"form": form})
 
 class UserProgressView(TemplateView):
     template_name = "workouts/progress.html"
