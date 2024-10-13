@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import TemplateView
 from .forms import UserRegistrationForm, UserProfileForm, UserProgressForm
-from .models import WorkoutPlan, UserProgress
+from .models import WorkoutPlan, UserProgress, UserProfile
 
 
 def home(request):
@@ -20,9 +20,7 @@ def register(request):
             user.save()
             login(request, user)
             messages.success(request, "Вы успешно зарегистрированы!")
-            return redirect(
-                "profile"
-            )  # Перенаправляем на страницу профиля после регистрации
+            return redirect("profile")
     else:
         form = UserRegistrationForm()
     return render(request, "workouts/register.html", {"form": form})
@@ -35,16 +33,23 @@ def logout_view(request):
 
 @login_required
 def profile(request):
+    user = request.user
+    # Создаем профиль, если его нет
+    if not hasattr(user, 'userprofile'):
+        UserProfile.objects.create(user=user)
+
     if request.method == "POST":
-        form = UserProfileForm(request.POST, instance=request.user.userprofile)
+        form = UserProfileForm(request.POST, instance=user.userprofile)
         if form.is_valid():
             form.save()
             messages.success(request, "Ваш профиль обновлен!")
-            return redirect(
-                "profile"
-            )  # Оставляем пользователя на странице профиля после обновления
+            # Изменённый редирект на страницу выбора программы тренировок
+            return redirect("workout_plan")  # Теперь ведет на workout_plan
+        else:
+            messages.error(request, "Ошибка при сохранении данных. Проверьте форму.")
     else:
-        form = UserProfileForm(instance=request.user.userprofile)
+        form = UserProfileForm(instance=user.userprofile)
+
     return render(request, "workouts/profile.html", {"form": form})
 
 
