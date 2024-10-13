@@ -6,10 +6,8 @@ from django.views.generic import TemplateView
 from .forms import UserRegistrationForm, UserProfileForm, UserProgressForm
 from .models import WorkoutPlan, UserProgress, UserProfile
 
-
 def home(request):
     return render(request, "workouts/home.html")
-
 
 def register(request):
     if request.method == "POST":
@@ -27,12 +25,10 @@ def register(request):
         form = UserRegistrationForm()
     return render(request, "workouts/register.html", {"form": form})
 
-
 def logout_view(request):
     logout(request)
     messages.info(request, "Вы вышли из системы.")
     return redirect("home")
-
 
 @login_required
 def profile(request):
@@ -55,7 +51,6 @@ def profile(request):
 
     return render(request, "workouts/profile.html", {"form": form})
 
-
 @login_required
 def workout_plan(request):
     user_profile = request.user.userprofile
@@ -66,18 +61,15 @@ def workout_plan(request):
 
     return render(request, "workouts/workout_plan.html", {"workouts": workouts})
 
-
 @login_required
 def workout_list(request):
     workouts = WorkoutPlan.objects.all()
     return render(request, "workouts/workout_list.html", {"workouts": workouts})
 
-
 @login_required
 def workout_detail(request, id):
     workout = WorkoutPlan.objects.get(id=id)
     return render(request, "workouts/workout_detail.html", {"workout": workout})
-
 
 class UserProgressView(TemplateView):
     template_name = "workouts/progress.html"

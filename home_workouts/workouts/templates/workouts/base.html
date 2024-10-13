@@ -26,7 +26,6 @@
             width: 16.666667%;
             background-color: #f8f9fa;
             overflow-y: auto;
-            display: none;
         }
         main {
             flex-grow: 1;
@@ -36,6 +35,7 @@
             justify-content: center;
             align-items: center;
             height: calc(100vh - 50px);
+            padding-left: 16.666667%; /* Сделано постоянным отступом для основного контента */
         }
         footer {
             background-color: #f8f9fa;
@@ -43,28 +43,11 @@
             text-align: center;
             width: 100%;
         }
-        #toggle-btn {
-            display: none;
-        }
-        .show-toggle #toggle-btn {
-            display: block;
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-        }
-        .show-sidebar #sidebar {
-            display: block;
-        }
     </style>
 </head>
-<body class="{% if request.resolver_match.url_name == 'home' or request.resolver_match.url_name == 'login' or request.resolver_match.url_name == 'register' %}hide-sidebar{% else %}show-toggle{% endif %}">
-    <button id="toggle-btn">Меню</button>
-    <div id="sidebar" class="{% if request.resolver_match.url_name != 'home' and request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'register' %}show-sidebar{% endif %}">
+<body>
+    <!-- Боковое меню отображается постоянно -->
+    <div id="sidebar">
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
@@ -105,18 +88,17 @@
         </ul>
     </div>
 
-    <!-- Добавление блока для сообщений -->
-    {% if messages %}
-    <div class="container mt-3">
-        {% for message in messages %}
-            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
-                {{ message }}
-            </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-
     <main>
+        {% if messages %}
+            <div class="container mt-3">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         {% block content %}
         {% endblock %}
     </main>
@@ -128,15 +110,5 @@
     {% endif %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const toggleBtn = document.getElementById('toggle-btn');
-        const sidebar = document.getElementById('sidebar');
-
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', () => {
-                sidebar.classList.toggle('show-sidebar');
-            });
-        }
-    </script>
 </body>
 </html>
