@@ -6,22 +6,24 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Все тренировки</h2>
     <div class="row">
-        {% for workout in workouts %}
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{ workout.name }}</h5>
-                    <p class="card-text">{{ workout.description|truncatewords:20 }}</p>
-                    <p class="card-text"><strong>Длительность:</strong> {{ workout.duration }} минут</p>
-                </div>
-                <div class="card-footer text-center">
-                    <a href="{% url 'workout_detail' workout.id %}" class="btn btn-info">Подробнее</a>
+        {% if workouts %}
+            {% for workout in workouts %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ workout.name }}</h5>
+                        <p class="card-text">{{ workout.description|truncatewords:20 }}</p>
+                        <p class="card-text"><strong>Длительность:</strong> {{ workout.duration }} минут</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="{% url 'workout_detail' workout.id %}" class="btn btn-info">Подробнее</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        {% empty %}
-        <p>Тренировок пока нет.</p>
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            <p>Тренировок пока нет.</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

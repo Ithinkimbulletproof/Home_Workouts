@@ -42,7 +42,6 @@ def profile(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Ваш профиль обновлен!")
-            # Изменённый редирект на страницу выбора программы тренировок
             return redirect("workout_plan")
         else:
             messages.error(request, "Ошибка при сохранении данных. Проверьте форму.")
