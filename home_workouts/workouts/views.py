@@ -21,6 +21,8 @@ def register(request):
             login(request, user)
             messages.success(request, "Вы успешно зарегистрированы!")
             return redirect("profile")
+        else:
+            messages.error(request, "Ошибка регистрации. Проверьте данные и попробуйте снова.")
     else:
         form = UserRegistrationForm()
     return render(request, "workouts/register.html", {"form": form})
@@ -28,6 +30,7 @@ def register(request):
 
 def logout_view(request):
     logout(request)
+    messages.info(request, "Вы вышли из системы.")
     return redirect("home")
 
 
@@ -44,7 +47,7 @@ def profile(request):
             form.save()
             messages.success(request, "Ваш профиль обновлен!")
             # Изменённый редирект на страницу выбора программы тренировок
-            return redirect("workout_plan")  # Теперь ведет на workout_plan
+            return redirect("workout_plan")
         else:
             messages.error(request, "Ошибка при сохранении данных. Проверьте форму.")
     else:

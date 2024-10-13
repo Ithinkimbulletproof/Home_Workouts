@@ -4,7 +4,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser
 
-
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     age = models.IntegerField(default=18)
@@ -14,7 +13,6 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
-
 
 class WorkoutPlan(models.Model):
     INTENSITY_CHOICES = [
@@ -30,7 +28,6 @@ class WorkoutPlan(models.Model):
     def __str__(self):
         return self.name
 
-
 class UserProgress(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
@@ -41,17 +38,14 @@ class UserProgress(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.date}"
 
-
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
 
-
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def save_user_profile(sender, instance, **kwargs):
     instance.userprofile.save()
-
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
