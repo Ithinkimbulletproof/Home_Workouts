@@ -35,7 +35,7 @@
             justify-content: center;
             align-items: center;
             height: calc(100vh - 50px);
-            padding-left: 16.666667%; /* Сделано постоянным отступом для основного контента */
+            padding-left: 16.666667%;
         }
         footer {
             background-color: #f8f9fa;
@@ -46,43 +46,30 @@
     </style>
 </head>
 <body>
-    <!-- Боковое меню отображается постоянно -->
     <div id="sidebar">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
-                    Главная
-                </a>
+                <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Главная</a>
             </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">
-                    Профиль
-                </a>
+                <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">Профиль</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == 'progress' %}active{% endif %}" href="{% url 'progress' %}">
-                    Прогресс
-                </a>
+                <a class="nav-link {% if request.resolver_match.url_name == 'progress' %}active{% endif %}" href="{% url 'progress' %}">Прогресс</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == 'workout_list' %}active{% endif %}" href="{% url 'workout_list' %}">
-                    Тренировки
-                </a>
+                <a class="nav-link {% if request.resolver_match.url_name == 'workout_list' %}active{% endif %}" href="{% url 'workout_list' %}">Тренировки</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
             </li>
             {% else %}
             <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">
-                    Войти
-                </a>
+                <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">Войти</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}" href="{% url 'register' %}">
-                    Регистрация
-                </a>
+                <a class="nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}" href="{% url 'register' %}">Регистрация</a>
             </li>
             {% endif %}
         </ul>
@@ -90,13 +77,13 @@
 
     <main>
         {% if messages %}
-            <div class="container mt-3">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+        <div class="container mt-3">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
             </div>
+            {% endfor %}
+        </div>
         {% endif %}
 
         {% block content %}

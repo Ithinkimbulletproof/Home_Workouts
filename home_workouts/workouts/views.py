@@ -3,11 +3,15 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import TemplateView
-from .forms import UserRegistrationForm, UserProfileForm, UserProgressForm, WorkoutPlanForm
-from .models import WorkoutPlan, UserProgress, UserProfile
+from .forms import (
+    UserRegistrationForm,
+    UserProfileForm,
+    UserProgressForm,
+    WorkoutPlanForm,
+)
+from .models import WorkoutPlan, UserProgress, UserProfile, UserGoal
+from datetime import datetime
 
-def home(request):
-    return render(request, "workouts/home.html")
 
 def register(request):
     if request.method == "POST":
@@ -20,21 +24,24 @@ def register(request):
             messages.success(request, "Вы успешно зарегистрированы!")
             return redirect("profile")
         else:
-            messages.error(request, "Ошибка регистрации. Проверьте данные и попробуйте снова.")
+            messages.error(
+                request, "Ошибка регистрации. Проверьте данные и попробуйте снова."
+            )
     else:
         form = UserRegistrationForm()
     return render(request, "workouts/register.html", {"form": form})
+
 
 def logout_view(request):
     logout(request)
     messages.info(request, "Вы вышли из системы.")
     return redirect("home")
 
+
 @login_required
 def profile(request):
     user = request.user
-    # Создаем профиль, если его нет
-    if not hasattr(user, 'userprofile'):
+    if not hasattr(user, "userprofile"):
         UserProfile.objects.create(user=user)
 
     if request.method == "POST":
@@ -50,6 +57,7 @@ def profile(request):
 
     return render(request, "workouts/profile.html", {"form": form})
 
+
 @login_required
 def workout_plan(request):
     user_profile = request.user.userprofile
@@ -60,15 +68,18 @@ def workout_plan(request):
 
     return render(request, "workouts/workout_plan.html", {"workouts": workouts})
 
+
 @login_required
 def workout_list(request):
     workouts = WorkoutPlan.objects.all()
     return render(request, "workouts/workout_list.html", {"workouts": workouts})
 
+
 @login_required
 def workout_detail(request, id):
     workout = WorkoutPlan.objects.get(id=id)
     return render(request, "workouts/workout_detail.html", {"workout": workout})
+
 
 @login_required
 def create_workout(request):
@@ -81,6 +92,34 @@ def create_workout(request):
     else:
         form = WorkoutPlanForm()
     return render(request, "workouts/create_workout.html", {"form": form})
+
+
+@login_required
+def home(request):
+    user = request.user
+
+    workouts = WorkoutPlan.objects.filter(user=user).order_by("scheduled_date")[:5]
+
+    user_goals = UserGoal.objects.filter(user=user)
+
+    planned_workouts_count = WorkoutPlan.objects.filter(
+        user=user, scheduled_date__week=datetime.now().isocalendar()[1]
+    ).count()
+
+    recommendations = [
+        {"title": "Как правильно питаться во время тренировок", "url": "#"},
+        {"title": "5 упражнений для новичков", "url": "#"},
+    ]
+
+    context = {
+        "workouts": workouts,
+        "user_goals": user_goals,
+        "planned_workouts_count": planned_workouts_count,
+        "recommendations": recommendations,
+    }
+
+    return render(request, "workouts/home.html", context)
+
 
 class UserProgressView(TemplateView):
     template_name = "workouts/progress.html"
