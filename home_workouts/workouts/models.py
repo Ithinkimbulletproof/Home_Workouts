@@ -14,7 +14,7 @@ class UserProfile(models.Model):
     has_equipment = models.BooleanField(default=False)
 
     def clean(self):
-        if self.age <= 0:
+        if self.age < 0:
             raise ValidationError("Возраст должен быть положительным числом.")
         if self.weight <= 0:
             raise ValidationError("Вес должен быть положительным числом.")
@@ -73,3 +73,11 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = ["username"]
 
     objects = BaseUserManager()
+
+class UserGoal(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    goal_description = models.CharField(max_length=255)
+    date_set = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.goal_description}"

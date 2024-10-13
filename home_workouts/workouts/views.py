@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -24,9 +24,7 @@ def register(request):
             messages.success(request, "Вы успешно зарегистрированы!")
             return redirect("profile")
         else:
-            messages.error(
-                request, "Ошибка регистрации. Проверьте данные и попробуйте снова."
-            )
+            messages.error(request, "Ошибка регистрации. Проверьте данные и попробуйте снова.")
     else:
         form = UserRegistrationForm()
     return render(request, "workouts/register.html", {"form": form})
@@ -61,11 +59,7 @@ def profile(request):
 @login_required
 def workout_plan(request):
     user_profile = request.user.userprofile
-    if user_profile.has_equipment:
-        workouts = WorkoutPlan.objects.filter(equipment_required=True)
-    else:
-        workouts = WorkoutPlan.objects.filter(equipment_required=False)
-
+    workouts = WorkoutPlan.objects.filter(equipment_required=user_profile.has_equipment)
     return render(request, "workouts/workout_plan.html", {"workouts": workouts})
 
 
@@ -77,7 +71,7 @@ def workout_list(request):
 
 @login_required
 def workout_detail(request, id):
-    workout = WorkoutPlan.objects.get(id=id)
+    workout = get_object_or_404(WorkoutPlan, id=id)
     return render(request, "workouts/workout_detail.html", {"workout": workout})
 
 
