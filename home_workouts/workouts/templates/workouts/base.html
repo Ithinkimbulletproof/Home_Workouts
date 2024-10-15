@@ -27,6 +27,7 @@
             background-color: #f8f9fa;
             overflow-y: auto;
             transition: transform 0.3s ease-in-out;
+            z-index: 1000;
         }
         #sidebar.hidden {
             transform: translateX(-100%);
@@ -34,19 +35,20 @@
         #toggle-menu-btn {
             position: fixed;
             top: 15px;
-            right: 15px;
+            left: 15px;
             z-index: 1050;
         }
         main {
             flex-grow: 1;
             padding: 20px;
+            transition: margin-left 0.3s ease-in-out;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: calc(100vh - 50px);
-            padding-left: 0;
-            transition: padding-left 0.3s ease-in-out;
+            min-height: 100vh;
+        }
+        .sidebar-visible main {
+            margin-left: 16.666667%;
         }
         footer {
             background-color: #f8f9fa;
@@ -84,18 +86,17 @@
     <script>
         const toggleMenuBtn = document.getElementById("toggle-menu-btn");
         const sidebar = document.getElementById("sidebar");
-        const mainContent = document.querySelector("main");
+        const body = document.body;
 
         toggleMenuBtn.addEventListener("click", function() {
             sidebar.classList.toggle("hidden");
-            if (sidebar.classList.contains("hidden")) {
-                mainContent.style.paddingLeft = "0";
-            } else {
-                mainContent.style.paddingLeft = "16.666667%";
-            }
+            body.classList.toggle("sidebar-visible");
         });
-    </script>
 
+        if (!sidebar.classList.contains("hidden")) {
+            body.classList.add("sidebar-visible");
+        }
+    </script>
     {% endif %}
 
     <main>
