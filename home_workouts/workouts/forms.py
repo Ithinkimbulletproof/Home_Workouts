@@ -24,4 +24,10 @@ class UserProgressForm(forms.ModelForm):
 class WorkoutPlanForm(forms.ModelForm):
     class Meta:
         model = WorkoutPlan
-        fields = ["name", "description", "equipment_required", "intensity_level", "scheduled_date"]
+        fields = [
+            "name",
+            "description",
+            "equipment_required",
+            "intensity_level",
+            "scheduled_date",
+        ]

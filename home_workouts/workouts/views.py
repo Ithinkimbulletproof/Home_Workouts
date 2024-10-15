@@ -23,7 +23,9 @@ def register(request):
             messages.success(request, "Вы успешно зарегистрированы!")
             return redirect("profile")
         else:
-            messages.error(request, "Ошибка регистрации. Проверьте данные и попробуйте снова.")
+            messages.error(
+                request, "Ошибка регистрации. Проверьте данные и попробуйте снова."
+            )
     else:
         form = UserRegistrationForm()
 
@@ -90,8 +92,9 @@ def create_workout(request):
 
 def home(request):
     if request.user.is_authenticated:
-        return redirect('main')
-    return render(request, 'workouts/home.html')
+        return redirect("main")
+    return render(request, "workouts/home.html")
+
 
 @login_required
 def main(request):
@@ -101,8 +104,7 @@ def main(request):
     workouts = WorkoutPlan.objects.filter(user=user).order_by("scheduled_date")[:5]
 
     planned_workouts_count = WorkoutPlan.objects.filter(
-        user=user,
-        scheduled_date__week=datetime.now().isocalendar()[1]
+        user=user, scheduled_date__week=datetime.now().isocalendar()[1]
     ).count()
 
     user_goals = UserGoal.objects.filter(user=user)
@@ -119,7 +121,7 @@ def main(request):
         "recommendations": recommendations,
     }
 
-    return render(request, 'workouts/main.html', context)
+    return render(request, "workouts/main.html", context)
 
 
 class UserProgressView(TemplateView):
