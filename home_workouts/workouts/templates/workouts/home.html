@@ -1,63 +1,15 @@
 {% extends 'workouts/base.html' %}
 
-{% block title %}Личный кабинет{% endblock %}
+{% block title %}Добро пожаловать{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Добро пожаловать, {{ user.username }}!</h2>
+<div class="d-flex flex-column justify-content-center align-items-center" style="height: 80vh;">
+    <h2 class="text-center mb-4">Добро пожаловать на Fazanka Records Workout!</h2>
+    <p class="text-center mb-4">Пожалуйста, войдите или зарегистрируйтесь, чтобы начать пользоваться нашими услугами.</p>
 
-    <div class="card mb-4">
-        <div class="card-header">Ваш план тренировок</div>
-        <div class="card-body">
-            {% if workouts %}
-            <ul>
-                {% for workout in workouts %}
-                <li>{{ workout.name }} — запланирована на {{ workout.scheduled_date }}</li>
-                {% endfor %}
-            </ul>
-            <a href="{% url 'workout_plan' %}" class="btn btn-info">Перейти к тренировкам</a>
-            {% else %}
-            <p>У вас пока нет запланированных тренировок.</p>
-            <a href="{% url 'workout_plan' %}" class="btn btn-primary">Создать план тренировок</a>
-            {% endif %}
-        </div>
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'login' %}" class="btn btn-primary mx-2">Войти</a>
+        <a href="{% url 'register' %}" class="btn btn-secondary mx-2">Регистрация</a>
     </div>
-
-    <div class="card mb-4">
-        <div class="card-header">Полезные рекомендации</div>
-        <div class="card-body">
-            <ul>
-                <li><a href="#">Как правильно питаться во время тренировок</a></li>
-                <li><a href="#">5 упражнений для новичков</a></li>
-                <li><a href="#">Советы по восстановлению после интенсивных тренировок</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="card mb-4">
-        <div class="card-header">Ваш календарь тренировок</div>
-        <div class="card-body">
-            <p>На этой неделе запланировано {{ planned_workouts_count }} тренировок.</p>
-            <a href="#" class="btn btn-secondary">Изменить план тренировок</a>
-        </div>
-    </div>
-
-    <div class="card mb-4">
-        <div class="card-header">Ваши цели и достижения</div>
-        <div class="card-body">
-            {% if user_goals %}
-            <ul>
-                {% for goal in user_goals %}
-                <li>{{ goal.description }} — Прогресс: {{ goal.progress }}%</li>
-                {% endfor %}
-            </ul>
-            <a href="#" class="btn btn-secondary">Изменить цели</a>
-            {% else %}
-            <p>У вас пока нет активных целей.</p>
-            <a href="#" class="btn btn-primary">Добавить цель</a>
-            {% endif %}
-        </div>
-    </div>
-
 </div>
 {% endblock %}

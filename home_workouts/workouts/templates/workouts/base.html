@@ -35,7 +35,7 @@
             justify-content: center;
             align-items: center;
             height: calc(100vh - 50px);
-            padding-left: 16.666667%;
+            padding-left: 0;
         }
         footer {
             background-color: #f8f9fa;
@@ -46,12 +46,12 @@
     </style>
 </head>
 <body>
+    {% if user.is_authenticated %}
     <div id="sidebar">
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Главная</a>
             </li>
-            {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">Профиль</a>
             </li>
@@ -64,16 +64,15 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
             </li>
-            {% else %}
-            <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">Войти</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}" href="{% url 'register' %}">Регистрация</a>
-            </li>
-            {% endif %}
         </ul>
     </div>
+    <style>
+        /* Если авторизован, добавляем отступ для main */
+        main {
+            padding-left: 16.666667%;
+        }
+    </style>
+    {% endif %}
 
     <main>
         {% if messages %}

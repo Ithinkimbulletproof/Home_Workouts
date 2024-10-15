@@ -31,10 +31,12 @@ class WorkoutPlan(models.Model):
         ("medium", "Средняя"),
         ("high", "Высокая"),
     ]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     description = models.TextField()
     equipment_required = models.BooleanField(default=False)
-    intensity_level = models.CharField(max_length=6, choices=INTENSITY_CHOICES)
+    intensity_level = models.CharField(max_length=10, choices=INTENSITY_CHOICES)  # Увеличено до 10
+    scheduled_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -52,7 +54,7 @@ class UserProgress(models.Model):
             raise ValidationError("Вес должен быть положительным числом.")
 
     def __str__(self):
-        return f"{self.user.username} - {self.date}"
+        return f"{self.user.username} - {self.date} (Вес: {self.weight})"
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
@@ -74,10 +76,13 @@ class CustomUser(AbstractUser):
 
     objects = BaseUserManager()
 
+
 class UserGoal(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     goal_description = models.CharField(max_length=255)
     date_set = models.DateField(auto_now_add=True)
+    # Можно добавить статус или прогресс, если необходимо
+    progress = models.FloatField(default=0.0)  # Поле для хранения прогресса
 
     def __str__(self):
         return f"{self.user.username} - {self.goal_description}"

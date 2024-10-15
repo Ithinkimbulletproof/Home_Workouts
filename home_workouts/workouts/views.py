@@ -11,6 +11,7 @@ from .forms import (
 )
 from .models import WorkoutPlan, UserProgress, UserProfile, UserGoal
 from datetime import datetime
+from django.db.models.functions import ExtractWeek
 
 
 def register(request):
@@ -88,17 +89,24 @@ def create_workout(request):
     return render(request, "workouts/create_workout.html", {"form": form})
 
 
-@login_required
 def home(request):
+    if request.user.is_authenticated:
+        return redirect('main')
+    return render(request, 'workouts/home.html')
+
+@login_required
+def main(request):
     user = request.user
 
+    user_profile = request.user.userprofile
     workouts = WorkoutPlan.objects.filter(user=user).order_by("scheduled_date")[:5]
 
-    user_goals = UserGoal.objects.filter(user=user)
-
     planned_workouts_count = WorkoutPlan.objects.filter(
-        user=user, scheduled_date__week=datetime.now().isocalendar()[1]
+        user=user,
+        scheduled_date__week=datetime.now().isocalendar()[1]
     ).count()
+
+    user_goals = UserGoal.objects.filter(user=user)
 
     recommendations = [
         {"title": "Как правильно питаться во время тренировок", "url": "#"},
@@ -112,7 +120,7 @@ def home(request):
         "recommendations": recommendations,
     }
 
-    return render(request, "workouts/home.html", context)
+    return render(request, 'workouts/main.html', context)
 
 
 class UserProgressView(TemplateView):
