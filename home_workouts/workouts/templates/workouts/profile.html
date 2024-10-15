@@ -1,14 +1,16 @@
 {% extends 'workouts/base.html' %}
+{% load workouts.form_extras %}
 
 {% block title %}Анкета{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-8 col-lg-6">
             <div class="card shadow-lg border-0">
                 <div class="card-body">
                     <h2 class="text-center mb-4">Анкета пользователя</h2>
+
                     {% if messages %}
                         <div class="alert alert-info">
                             {% for message in messages %}
@@ -16,33 +18,37 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+
                     <form method="POST">
                         {% csrf_token %}
 
                         <div class="form-group mb-3">
                             {{ form.age.label_tag }}
-                            {{ form.age }}
+                            {{ form.age|add_class:"form-control" }}
                             {% if form.age.errors %}
                                 <div class="text-danger">{{ form.age.errors }}</div>
                             {% endif %}
                         </div>
+
                         <div class="form-group mb-3">
                             {{ form.weight.label_tag }}
-                            {{ form.weight }}
+                            {{ form.weight|add_class:"form-control" }}
                             {% if form.weight.errors %}
                                 <div class="text-danger">{{ form.weight.errors }}</div>
                             {% endif %}
                         </div>
+
                         <div class="form-group mb-3">
                             {{ form.height.label_tag }}
-                            {{ form.height }}
+                            {{ form.height|add_class:"form-control" }}
                             {% if form.height.errors %}
                                 <div class="text-danger">{{ form.height.errors }}</div>
                             {% endif %}
                         </div>
+
                         <div class="form-group mb-4">
                             <label for="id_has_equipment">Есть оборудование?</label>
-                            {{ form.has_equipment }}
+                            {{ form.has_equipment|add_class:"form-check-input" }}
                             {% if form.has_equipment.errors %}
                                 <div class="text-danger">{{ form.has_equipment.errors }}</div>
                             {% endif %}

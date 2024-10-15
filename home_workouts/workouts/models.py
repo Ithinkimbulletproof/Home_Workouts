@@ -35,7 +35,7 @@ class WorkoutPlan(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     equipment_required = models.BooleanField(default=False)
-    intensity_level = models.CharField(max_length=10, choices=INTENSITY_CHOICES)  # Увеличено до 10
+    intensity_level = models.CharField(max_length=10, choices=INTENSITY_CHOICES)
     scheduled_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
@@ -81,8 +81,7 @@ class UserGoal(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     goal_description = models.CharField(max_length=255)
     date_set = models.DateField(auto_now_add=True)
-    # Можно добавить статус или прогресс, если необходимо
-    progress = models.FloatField(default=0.0)  # Поле для хранения прогресса
+    progress = models.FloatField(default=0.0)
 
     def __str__(self):
         return f"{self.user.username} - {self.goal_description}"

@@ -18,9 +18,7 @@ def register(request):
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data["password"])
-            user.save()
+            user = form.save()
             login(request, user)
             messages.success(request, "Вы успешно зарегистрированы!")
             return redirect("profile")
@@ -28,6 +26,7 @@ def register(request):
             messages.error(request, "Ошибка регистрации. Проверьте данные и попробуйте снова.")
     else:
         form = UserRegistrationForm()
+
     return render(request, "workouts/register.html", {"form": form})
 
 
