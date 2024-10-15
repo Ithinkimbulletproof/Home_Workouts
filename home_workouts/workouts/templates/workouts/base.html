@@ -26,6 +26,16 @@
             width: 16.666667%;
             background-color: #f8f9fa;
             overflow-y: auto;
+            transition: transform 0.3s ease-in-out;
+        }
+        #sidebar.hidden {
+            transform: translateX(-100%);
+        }
+        #toggle-menu-btn {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1050;
         }
         main {
             flex-grow: 1;
@@ -36,6 +46,7 @@
             align-items: center;
             height: calc(100vh - 50px);
             padding-left: 0;
+            transition: padding-left 0.3s ease-in-out;
         }
         footer {
             background-color: #f8f9fa;
@@ -46,7 +57,10 @@
     </style>
 </head>
 <body>
+
     {% if user.is_authenticated %}
+    <button id="toggle-menu-btn" class="btn btn-primary">Показать/Скрыть меню</button>
+
     <div id="sidebar">
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -66,12 +80,22 @@
             </li>
         </ul>
     </div>
-    <style>
-        /* Если авторизован, добавляем отступ для main */
-        main {
-            padding-left: 16.666667%;
-        }
-    </style>
+
+    <script>
+        const toggleMenuBtn = document.getElementById("toggle-menu-btn");
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.querySelector("main");
+
+        toggleMenuBtn.addEventListener("click", function() {
+            sidebar.classList.toggle("hidden");
+            if (sidebar.classList.contains("hidden")) {
+                mainContent.style.paddingLeft = "0";
+            } else {
+                mainContent.style.paddingLeft = "16.666667%";
+            }
+        });
+    </script>
+
     {% endif %}
 
     <main>
