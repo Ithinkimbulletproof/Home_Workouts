@@ -83,7 +83,6 @@ def create_workout(request):
             workout = form.save(commit=False)
             user_profile = request.user.userprofile
 
-            # Подбираем уровень физической подготовки и цели
             if user_profile.fitness_level >= workout.required_fitness_level:
                 workout.user = request.user
                 workout.save()
