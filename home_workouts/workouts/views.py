@@ -20,7 +20,6 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, "Вы успешно зарегистрированы!")
             return redirect("profile")
         else:
             messages.error(

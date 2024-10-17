@@ -57,6 +57,10 @@
             text-align: center;
             width: 100%;
         }
+        .alert {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -103,10 +107,11 @@
     <main>
         {% if messages %}
         <div class="container mt-3">
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-            </div>
+            {% for message in messages|dictsort:"level" %}
+                <div class="alert alert-{{ message.tags }} text-center alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
             {% endfor %}
         </div>
         {% endif %}

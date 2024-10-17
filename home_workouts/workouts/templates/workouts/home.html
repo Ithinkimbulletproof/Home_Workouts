@@ -3,13 +3,27 @@
 {% block title %}Добро пожаловать{% endblock %}
 
 {% block content %}
-<div class="d-flex flex-column justify-content-center align-items-center" style="height: 80vh;">
-    <h2 class="text-center mb-4">Добро пожаловать на Fazanka Records Workout!</h2>
-    <p class="text-center mb-4">Пожалуйста, войдите или зарегистрируйтесь, чтобы начать пользоваться нашими услугами.</p>
+<div class="container">
+    {% if messages %}
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="alert alert-info text-center">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
-    <div class="d-flex justify-content-center">
-        <a href="{% url 'login' %}" class="btn btn-primary mx-2">Войти</a>
-        <a href="{% url 'register' %}" class="btn btn-secondary mx-2">Регистрация</a>
+    <div class="d-flex flex-column justify-content-center align-items-center" style="height: 80vh;">
+        <h2 class="text-center mb-4">Добро пожаловать на Fazanka Records Workout!</h2>
+        <p class="text-center mb-4">Пожалуйста, войдите или зарегистрируйтесь, чтобы начать пользоваться нашими услугами.</p>
+
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'login' %}" class="btn btn-primary mx-2">Войти</a>
+            <a href="{% url 'register' %}" class="btn btn-secondary mx-2">Регистрация</a>
+        </div>
     </div>
 </div>
 {% endblock %}
