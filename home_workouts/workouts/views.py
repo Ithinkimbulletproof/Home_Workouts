@@ -33,7 +33,6 @@ def register(request):
 
 def logout_view(request):
     logout(request)
-    messages.info(request, "Вы вышли из системы.")
     return redirect("home")
 
 
@@ -81,8 +80,18 @@ def create_workout(request):
     if request.method == "POST":
         form = WorkoutPlanForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Тренировка успешно создана!")
+            workout = form.save(commit=False)
+            user_profile = request.user.userprofile
+
+            # Подбираем уровень физической подготовки и цели
+            if user_profile.fitness_level >= workout.required_fitness_level:
+                workout.user = request.user
+                workout.save()
+                messages.success(request, "Тренировка успешно создана!")
+            else:
+                messages.error(request, "Ваш уровень физической подготовки недостаточен для этой тренировки.")
+                return render(request, "workouts/create_workout.html", {"form": form})
+
             return redirect("workout_list")
     else:
         form = WorkoutPlanForm()

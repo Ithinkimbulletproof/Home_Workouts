@@ -11,21 +11,29 @@ class UserRegistrationForm(UserCreationForm):
 
 class UserProfileForm(forms.ModelForm):
     GENDER_CHOICES = [
-        ('male', 'Мужской'),
-        ('female', 'Женский'),
-        ('other', 'Другой'),
+        ("male", "Мужской"),
+        ("female", "Женский"),
+        ("other", "Другой"),
     ]
 
     FITNESS_LEVEL_CHOICES = [
-        ('beginner', 'Начинающий'),
-        ('below_average', 'Ниже среднего'),
-        ('average', 'Средний'),
-        ('above_average', 'Выше среднего'),
-        ('advanced', 'Продвинутый'),
+        ("beginner", "Начинающий"),
+        ("below_average", "Ниже среднего"),
+        ("average", "Средний"),
+        ("above_average", "Выше среднего"),
+        ("advanced", "Продвинутый"),
     ]
 
-    gender = forms.ChoiceField(choices=GENDER_CHOICES, label="Пол", widget=forms.Select(attrs={'class': 'form-select'}))
-    fitness_level = forms.ChoiceField(choices=FITNESS_LEVEL_CHOICES, label="Уровень физической подготовки", widget=forms.Select(attrs={'class': 'form-select'}))
+    gender = forms.ChoiceField(
+        choices=GENDER_CHOICES,
+        label="Пол",
+        widget=forms.Select(attrs={"class": "form-select"}),
+    )
+    fitness_level = forms.ChoiceField(
+        choices=FITNESS_LEVEL_CHOICES,
+        label="Уровень физической подготовки",
+        widget=forms.Select(attrs={"class": "form-select"}),
+    )
 
     class Meta:
         model = UserProfile

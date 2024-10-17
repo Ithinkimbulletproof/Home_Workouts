@@ -89,6 +89,3 @@ LOGOUT_REDIRECT_URL = "home"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "workouts.CustomUser"
-
-USE_I18N = True
-USE_L10N = True

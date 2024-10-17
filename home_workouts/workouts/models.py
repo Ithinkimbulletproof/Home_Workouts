@@ -8,11 +8,11 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 class UserProfile(models.Model):
     FITNESS_LEVEL_CHOICES = [
-        ('beginner', 'Начальный'),
-        ('below_average', 'Ниже среднего'),
-        ('average', 'Средний'),
-        ('above_average', 'Выше среднего'),
-        ('advanced', 'Продвинутый'),
+        ("beginner", "Начальный"),
+        ("below_average", "Ниже среднего"),
+        ("average", "Средний"),
+        ("above_average", "Выше среднего"),
+        ("advanced", "Продвинутый"),
     ]
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -23,7 +23,7 @@ class UserProfile(models.Model):
     fitness_level = models.CharField(
         max_length=20,
         choices=FITNESS_LEVEL_CHOICES,
-        default='beginner',
+        default="beginner",
     )
 
     def clean(self):
