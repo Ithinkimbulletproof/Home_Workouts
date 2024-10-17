@@ -2,16 +2,29 @@ from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 
 class UserProfile(models.Model):
+    FITNESS_LEVEL_CHOICES = [
+        ('beginner', 'Начальный'),
+        ('below_average', 'Ниже среднего'),
+        ('average', 'Средний'),
+        ('above_average', 'Выше среднего'),
+        ('advanced', 'Продвинутый'),
+    ]
+
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     age = models.PositiveIntegerField(default=18)
     weight = models.FloatField(default=70.0)
     height = models.FloatField(default=170.0)
     has_equipment = models.BooleanField(default=False)
+    fitness_level = models.CharField(
+        max_length=20,
+        choices=FITNESS_LEVEL_CHOICES,
+        default='beginner',
+    )
 
     def clean(self):
         if self.age < 0:
@@ -31,6 +44,7 @@ class WorkoutPlan(models.Model):
         ("medium", "Средняя"),
         ("high", "Высокая"),
     ]
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     description = models.TextField()
