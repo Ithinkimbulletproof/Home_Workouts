@@ -9,7 +9,7 @@ class UserRegistrationForm(UserCreationForm):
         fields = ["username", "email", "password1", "password2"]
 
     def save(self, commit=True):
-        user = super().save(commit)
+        user = super().save(commit=commit)
         return user
 
 
@@ -38,22 +38,8 @@ class UserProfileForm(forms.ModelForm):
         choices=FITNESS_LEVEL_CHOICES,
         label="Уровень физической подготовки",
         widget=forms.Select(attrs={"class": "form-select"}),
+        required=True,
     )
-
-    class Meta:
-        model = UserProfile
-        fields = [
-            "age",
-            "weight",
-            "height",
-            "has_equipment",
-            "gender",
-            "fitness_level",
-            "chest_circumference",
-            "arm_circumference",
-            "leg_circumference",
-            "waist_circumference",
-        ]
 
     chest_circumference = forms.FloatField(
         required=False,
@@ -75,6 +61,21 @@ class UserProfileForm(forms.ModelForm):
         label="Объём талии",
         widget=forms.NumberInput(attrs={"class": "form-control"}),
     )
+
+    class Meta:
+        model = UserProfile
+        fields = [
+            "age",
+            "weight",
+            "height",
+            "has_equipment",
+            "gender",
+            "fitness_level",
+            "chest_circumference",
+            "arm_circumference",
+            "leg_circumference",
+            "waist_circumference",
+        ]
 
 
 class UserProgressForm(forms.ModelForm):

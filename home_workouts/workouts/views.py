@@ -18,17 +18,13 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            messages.success(request, "Регистрация прошла успешно! Добро пожаловать!")
+            UserProfile.objects.get_or_create(user=user)
+            messages.success(request, "Регистрация прошла успешно!")
             return redirect("profile")
-        else:
-            messages.error(
-                request, "Ошибка регистрации. Проверьте данные и попробуйте снова."
-            )
     else:
         form = UserRegistrationForm()
 
-    return render(request, "workouts/register.html", {"form": form})
+    return render(request, "your_template.html", {"form": form})
 
 
 def logout_view(request):
