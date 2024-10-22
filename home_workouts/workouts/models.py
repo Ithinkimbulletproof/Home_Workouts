@@ -21,10 +21,18 @@ class UserProfile(models.Model):
     height = models.FloatField(default=170.0)
 
     # Новые поля для объёмов тела
-    chest_circumference = models.FloatField(null=True, blank=True, verbose_name="Объём груди")
-    arm_circumference = models.FloatField(null=True, blank=True, verbose_name="Объём рук")
-    leg_circumference = models.FloatField(null=True, blank=True, verbose_name="Объём ног")
-    waist_circumference = models.FloatField(null=True, blank=True, verbose_name="Объём талии")
+    chest_circumference = models.FloatField(
+        null=True, blank=True, verbose_name="Объём груди"
+    )
+    arm_circumference = models.FloatField(
+        null=True, blank=True, verbose_name="Объём рук"
+    )
+    leg_circumference = models.FloatField(
+        null=True, blank=True, verbose_name="Объём ног"
+    )
+    waist_circumference = models.FloatField(
+        null=True, blank=True, verbose_name="Объём талии"
+    )
 
     has_equipment = models.BooleanField(default=False)
     fitness_level = models.CharField(

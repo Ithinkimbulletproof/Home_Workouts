@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile, UserProgress, WorkoutPlan, CustomUser
-from django.contrib import messages
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -11,7 +10,6 @@ class UserRegistrationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit)
-        messages.success(self.request, "Регистрация прошла успешно!")
         return user
 
 
@@ -34,7 +32,7 @@ class UserProfileForm(forms.ModelForm):
         choices=GENDER_CHOICES,
         label="Пол",
         widget=forms.Select(attrs={"class": "form-select"}),
-        required=True
+        required=True,
     )
     fitness_level = forms.ChoiceField(
         choices=FITNESS_LEVEL_CHOICES,
@@ -54,28 +52,28 @@ class UserProfileForm(forms.ModelForm):
             "chest_circumference",
             "arm_circumference",
             "leg_circumference",
-            "waist_circumference"
+            "waist_circumference",
         ]
 
     chest_circumference = forms.FloatField(
         required=False,
         label="Объём груди",
-        widget=forms.NumberInput(attrs={"class": "form-control"})
+        widget=forms.NumberInput(attrs={"class": "form-control"}),
     )
     arm_circumference = forms.FloatField(
         required=False,
         label="Объём рук",
-        widget=forms.NumberInput(attrs={"class": "form-control"})
+        widget=forms.NumberInput(attrs={"class": "form-control"}),
     )
     leg_circumference = forms.FloatField(
         required=False,
         label="Объём ног",
-        widget=forms.NumberInput(attrs={"class": "form-control"})
+        widget=forms.NumberInput(attrs={"class": "form-control"}),
     )
     waist_circumference = forms.FloatField(
         required=False,
         label="Объём талии",
-        widget=forms.NumberInput(attrs={"class": "form-control"})
+        widget=forms.NumberInput(attrs={"class": "form-control"}),
     )
 
 
