@@ -11,7 +11,6 @@ from .forms import (
 )
 from .models import WorkoutPlan, UserProgress, UserProfile, UserGoal
 from datetime import datetime
-from django.db.models.functions import ExtractWeek
 
 
 def register(request):
@@ -20,6 +19,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            messages.success(request, "Регистрация прошла успешно! Добро пожаловать!")
             return redirect("profile")
         else:
             messages.error(
@@ -33,6 +33,7 @@ def register(request):
 
 def logout_view(request):
     logout(request)
+    messages.success(request, "Вы успешно вышли из системы.")
     return redirect("home")
 
 
@@ -46,6 +47,7 @@ def profile(request):
         form = UserProfileForm(request.POST, instance=user.userprofile)
         if form.is_valid():
             form.save()
+            messages.success(request, "Данные профиля успешно обновлены!")
             return redirect("workout_plan")
         else:
             messages.error(request, "Ошибка при сохранении данных. Проверьте форму.")
@@ -86,11 +88,9 @@ def create_workout(request):
                 workout.user = request.user
                 workout.save()
                 messages.success(request, "Тренировка успешно создана!")
+                return redirect("workout_list")
             else:
                 messages.error(request, "Ваш уровень физической подготовки недостаточен для этой тренировки.")
-                return render(request, "workouts/create_workout.html", {"form": form})
-
-            return redirect("workout_list")
     else:
         form = WorkoutPlanForm()
     return render(request, "workouts/create_workout.html", {"form": form})

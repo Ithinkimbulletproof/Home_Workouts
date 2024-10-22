@@ -8,6 +8,11 @@ class UserRegistrationForm(UserCreationForm):
         model = CustomUser
         fields = ["username", "email", "password1", "password2"]
 
+    def save(self, commit=True):
+        user = super().save(commit)
+        messages.success(request, "Регистрация прошла успешно!")
+        return user
+
 
 class UserProfileForm(forms.ModelForm):
     GENDER_CHOICES = [
