@@ -79,6 +79,38 @@
                             {% endif %}
                         </div>
 
+                        <div class="form-group mb-3">
+                            {{ form.chest_circumference.label_tag }}
+                            {{ form.chest_circumference|add_class:"form-control" }}
+                            {% if form.chest_circumference.errors %}
+                                <div class="text-danger">{{ form.chest_circumference.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            {{ form.arm_circumference.label_tag }}
+                            {{ form.arm_circumference|add_class:"form-control" }}
+                            {% if form.arm_circumference.errors %}
+                                <div class="text-danger">{{ form.arm_circumference.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            {{ form.leg_circumference.label_tag }}
+                            {{ form.leg_circumference|add_class:"form-control" }}
+                            {% if form.leg_circumference.errors %}
+                                <div class="text-danger">{{ form.leg_circumference.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            {{ form.waist_circumference.label_tag }}
+                            {{ form.waist_circumference|add_class:"form-control" }}
+                            {% if form.waist_circumference.errors %}
+                                <div class="text-danger">{{ form.waist_circumference.errors }}</div>
+                            {% endif %}
+                        </div>
+
                         <button type="submit" class="btn btn-success w-100">Сохранить</button>
                     </form>
                 </div>
