@@ -6,13 +6,23 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} text-center alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
             <div class="card shadow-lg border-0 mb-4">
                 <div class="card-body">
                     <h2 class="text-center mb-4">Ваш прогресс</h2>
 
                     <form method="POST">
                         {% csrf_token %}
-
                         <div class="form-group mb-3">
                             {{ form.weight.label_tag }}
                             {{ form.weight }}
@@ -28,7 +38,6 @@
                             {{ form.notes }}
                             {{ form.notes.errors }}
                         </div>
-
                         <button type="submit" class="btn btn-success w-100">Добавить запись</button>
                     </form>
                 </div>
@@ -58,4 +67,21 @@
         </div>
     </div>
 </div>
+
+<script>
+    setTimeout(() => {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        });
+    }, 3000);
+</script>
+
+<style>
+    .fade-out {
+        opacity: 0;
+        transition: opacity 1s ease;
+    }
+</style>
 {% endblock %}

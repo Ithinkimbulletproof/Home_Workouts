@@ -46,7 +46,6 @@ def profile(request):
         form = UserProfileForm(request.POST, instance=user.userprofile)
         if form.is_valid():
             form.save()
-            messages.success(request, "Ваш профиль обновлен!")
             return redirect("workout_plan")
         else:
             messages.error(request, "Ошибка при сохранении данных. Проверьте форму.")

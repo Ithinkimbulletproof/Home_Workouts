@@ -6,16 +6,20 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Создание тренировки</h2>
 
-    {% if messages %}
-    <div class="container mt-3">
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} text-center alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="toast align-items-center text-bg-{{ message.tags }} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ message }}
+                    </div>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
             </div>
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
     </div>
-    {% endif %}
 
     <form method="POST">
         {% csrf_token %}
@@ -23,4 +27,14 @@
         <button type="submit" class="btn btn-primary">Создать тренировку</button>
     </form>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    const toastList = toastElList.map(function (toastEl) {
+        return new bootstrap.Toast(toastEl, { delay: 3000 });
+    });
+    toastList.forEach(toast => toast.show());
+</script>
 {% endblock %}

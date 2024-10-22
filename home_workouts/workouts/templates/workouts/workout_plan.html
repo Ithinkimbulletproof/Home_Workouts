@@ -5,6 +5,18 @@
 {% block content %}
 <div class="container mt-5">
     <h2 class="text-center mb-4">Персональный план тренировок</h2>
+
+    {% if messages %}
+    <div class="mb-4">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} text-center alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <div class="row">
         {% for workout in workouts %}
         <div class="col-md-4 mb-4">
@@ -24,4 +36,21 @@
         {% endfor %}
     </div>
 </div>
+
+<script>
+    setTimeout(() => {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            alert.classList.add('fade-out');
+            setTimeout(() => alert.remove(), 1000);
+        });
+    }, 3000);
+</script>
+
+<style>
+    .fade-out {
+        opacity: 0;
+        transition: opacity 1s ease;
+    }
+</style>
 {% endblock %}

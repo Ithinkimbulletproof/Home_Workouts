@@ -4,17 +4,20 @@
 
 {% block content %}
 <div class="container">
-    {% if messages %}
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="alert alert-info text-center">
-                    {% for message in messages %}
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="toast align-items-center text-bg-info border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
                         {{ message }}
-                    {% endfor %}
+                    </div>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
             </div>
-        </div>
-    {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
 
     <div class="d-flex flex-column justify-content-center align-items-center" style="height: 80vh;">
         <h2 class="text-center mb-4">Добро пожаловать на Fazanka Records Workout!</h2>
@@ -26,4 +29,14 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    const toastList = toastElList.map(function (toastEl) {
+        return new bootstrap.Toast(toastEl, { delay: 3000 });
+    });
+    toastList.forEach(toast => toast.show());
+</script>
 {% endblock %}
