@@ -90,7 +90,10 @@ def create_workout(request):
                 messages.success(request, "Тренировка успешно создана!")
                 return redirect("workout_list")
             else:
-                messages.error(request, "Ваш уровень физической подготовки недостаточен для этой тренировки.")
+                messages.error(
+                    request,
+                    "Ваш уровень физической подготовки недостаточен для этой тренировки.",
+                )
     else:
         form = WorkoutPlanForm()
     return render(request, "workouts/create_workout.html", {"form": form})
