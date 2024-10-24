@@ -25,18 +25,27 @@
                         {% csrf_token %}
                         <div class="form-group mb-3">
                             {{ form.weight.label_tag }}
-                            {{ form.weight }}
-                            {{ form.weight.errors }}
+                            {{ form.weight|add_class:"form-control" }}
+                            {% if form.weight.errors %}
+                                <div class="text-danger">{{ form.weight.errors }}</div>
+                            {% endif %}
                         </div>
                         <div class="form-group mb-3">
                             {{ form.workout_completed.label_tag }}
-                            {{ form.workout_completed }}
-                            {{ form.workout_completed.errors }}
+                            {{ form.workout_completed|add_class:"form-check-input" }}
+                            <label class="form-check-label" for="{{ form.workout_completed.id_for_label }}">
+                                Завершено
+                            </label>
+                            {% if form.workout_completed.errors %}
+                                <div class="text-danger">{{ form.workout_completed.errors }}</div>
+                            {% endif %}
                         </div>
                         <div class="form-group mb-4">
                             {{ form.notes.label_tag }}
-                            {{ form.notes }}
-                            {{ form.notes.errors }}
+                            {{ form.notes|add_class:"form-control" }}
+                            {% if form.notes.errors %}
+                                <div class="text-danger">{{ form.notes.errors }}</div>
+                            {% endif %}
                         </div>
                         <button type="submit" class="btn btn-success w-100">Добавить запись</button>
                     </form>

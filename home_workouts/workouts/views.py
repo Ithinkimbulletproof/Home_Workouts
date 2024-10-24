@@ -1,15 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import TemplateView
 from .forms import (
     UserRegistrationForm,
     UserProfileForm,
-    UserProgressForm,
     WorkoutPlanForm,
 )
-from .models import WorkoutPlan, UserProgress, UserProfile, UserGoal
+from .models import WorkoutPlan, UserProfile, UserGoal
 from datetime import datetime
 
 
@@ -18,13 +17,15 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            UserProfile.objects.get_or_create(user=user)
+            if not UserProfile.objects.filter(user=user).exists():
+                UserProfile.objects.create(user=user)
             messages.success(request, "Регистрация прошла успешно!")
+            login(request, user)
             return redirect("profile")
     else:
         form = UserRegistrationForm()
 
-    return render(request, "your_template.html", {"form": form})
+    return render(request, "workouts/register.html", {"form": form})
 
 
 def logout_view(request):

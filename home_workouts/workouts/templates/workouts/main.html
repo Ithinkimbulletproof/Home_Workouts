@@ -42,9 +42,13 @@
         <div class="card-header">Полезные рекомендации</div>
         <div class="card-body">
             <ul>
-                {% for recommendation in recommendations %}
-                <li><a href="#">{{ recommendation.title }}</a></li>
-                {% endfor %}
+                {% if recommendations %}
+                    {% for recommendation in recommendations %}
+                    <li><a href="#">{{ recommendation.title }}</a></li>
+                    {% endfor %}
+                {% else %}
+                    <li>Нет доступных рекомендаций.</li>
+                {% endif %}
             </ul>
         </div>
     </div>

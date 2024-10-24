@@ -20,7 +20,6 @@ class UserProfile(models.Model):
     weight = models.FloatField(default=70.0)
     height = models.FloatField(default=170.0)
 
-    # Новые поля для объёмов тела
     chest_circumference = models.FloatField(
         null=True, blank=True, verbose_name="Объём груди"
     )
@@ -88,7 +87,7 @@ class UserProgress(models.Model):
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
-    if created:
+    if created and not UserProfile.objects.filter(user=instance).exists():
         UserProfile.objects.create(user=instance)
 
 

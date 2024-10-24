@@ -61,10 +61,6 @@
                             {% endif %}
                         </div>
 
-                        <script>
-                            document.getElementById("id_username").focus();
-                        </script>
-
                         <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
                     </form>
                 </div>
@@ -77,15 +73,21 @@
     </div>
 </div>
 
+{% block extra_js %}
 <script>
-    setTimeout(() => {
-        const alerts = document.querySelectorAll('.alert');
-        alerts.forEach(alert => {
-            alert.classList.add('fade-out');
-            setTimeout(() => alert.remove(), 1000);
-        });
-    }, 3000);
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("id_username").focus();
+
+        setTimeout(() => {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                alert.classList.add('fade-out');
+                setTimeout(() => alert.remove(), 1000);
+            });
+        }, 3000);
+    });
 </script>
+{% endblock %}
 
 <style>
     .fade-out {
